@@ -1,0 +1,408 @@
+{
+  "supported_labels": [
+    "PLANT_01",
+    "PLANT_02",
+    "PLANT_03",
+    "PLANT_04",
+    "PLANT_05",
+    "PLANT_06",
+    "PLANT_07",
+    "PLANT_08",
+    "PLANT_09",
+    "PLANT_10",
+    "PLANT_11",
+    "PLANT_12",
+    "PLANT_13",
+    "PLANT_14",
+    "PLANT_15",
+    "PLANT_16",
+    "PLANT_17",
+    "PLANT_18",
+    "PLANT_19",
+    "PLANT_20",
+    "FUN_01",
+    "FUN_02",
+    "FUN_03",
+    "FUN_04",
+    "FUN_05",
+    "FUN_06",
+    "FUN_07",
+    "FUN_08",
+    "FUN_09",
+    "FUN_10",
+    "FUN_11",
+    "FUN_12",
+    "FUN_13",
+    "FUN_14",
+    "FUN_15",
+    "FUN_16",
+    "FUN_17",
+    "FUN_18",
+    "FUN_19",
+    "FUN_20",
+    "unknown"
+  ],
+  "training_supported_labels": [
+    "PLANT_01",
+    "PLANT_02",
+    "PLANT_03",
+    "PLANT_04",
+    "PLANT_05",
+    "PLANT_06",
+    "PLANT_07",
+    "PLANT_08",
+    "PLANT_09",
+    "PLANT_10",
+    "PLANT_11",
+    "PLANT_12",
+    "PLANT_13",
+    "PLANT_14",
+    "PLANT_15",
+    "PLANT_16",
+    "PLANT_17",
+    "PLANT_18",
+    "PLANT_19",
+    "PLANT_20",
+    "FUN_01",
+    "FUN_02",
+    "FUN_03",
+    "FUN_04",
+    "FUN_05",
+    "FUN_06",
+    "FUN_07",
+    "FUN_08",
+    "FUN_09",
+    "FUN_10",
+    "FUN_11",
+    "FUN_12",
+    "FUN_13",
+    "FUN_14",
+    "FUN_15",
+    "FUN_16",
+    "FUN_17",
+    "FUN_18",
+    "FUN_19",
+    "FUN_20",
+    "UNK_NON_TARGET_PLANT",
+    "UNK_NON_TARGET_FUNGUS",
+    "UNK_OTHER_OR_AMBIGUOUS"
+  ],
+  "collapse_to_public": {
+    "UNK_NON_TARGET_PLANT": "unknown",
+    "UNK_NON_TARGET_FUNGUS": "unknown",
+    "UNK_OTHER_OR_AMBIGUOUS": "unknown"
+  },
+  "by_id": {
+    "PLANT_01": {
+      "label_id": "PLANT_01",
+      "kingdom": "plants",
+      "scientific_name": "Pinus sylvestris",
+      "polish_name": "sosna zwyczajna",
+      "english_name": "Scots pine"
+    },
+    "PLANT_02": {
+      "label_id": "PLANT_02",
+      "kingdom": "plants",
+      "scientific_name": "Picea abies",
+      "polish_name": "swierk pospolity",
+      "english_name": "Norway spruce"
+    },
+    "PLANT_03": {
+      "label_id": "PLANT_03",
+      "kingdom": "plants",
+      "scientific_name": "Betula pendula",
+      "polish_name": "brzoza brodawkowata",
+      "english_name": "silver birch"
+    },
+    "PLANT_04": {
+      "label_id": "PLANT_04",
+      "kingdom": "plants",
+      "scientific_name": "Betula pubescens",
+      "polish_name": "brzoza omszona",
+      "english_name": "downy birch"
+    },
+    "PLANT_05": {
+      "label_id": "PLANT_05",
+      "kingdom": "plants",
+      "scientific_name": "Quercus robur",
+      "polish_name": "dab szypulkowy",
+      "english_name": "pedunculate oak"
+    },
+    "PLANT_06": {
+      "label_id": "PLANT_06",
+      "kingdom": "plants",
+      "scientific_name": "Quercus petraea",
+      "polish_name": "dab bezszypulkowy",
+      "english_name": "sessile oak"
+    },
+    "PLANT_07": {
+      "label_id": "PLANT_07",
+      "kingdom": "plants",
+      "scientific_name": "Fagus sylvatica",
+      "polish_name": "buk zwyczajny",
+      "english_name": "European beech"
+    },
+    "PLANT_08": {
+      "label_id": "PLANT_08",
+      "kingdom": "plants",
+      "scientific_name": "Alnus glutinosa",
+      "polish_name": "olsza czarna",
+      "english_name": "black alder"
+    },
+    "PLANT_09": {
+      "label_id": "PLANT_09",
+      "kingdom": "plants",
+      "scientific_name": "Populus tremula",
+      "polish_name": "osika",
+      "english_name": "European aspen"
+    },
+    "PLANT_10": {
+      "label_id": "PLANT_10",
+      "kingdom": "plants",
+      "scientific_name": "Acer platanoides",
+      "polish_name": "klon zwyczajny",
+      "english_name": "Norway maple"
+    },
+    "PLANT_11": {
+      "label_id": "PLANT_11",
+      "kingdom": "plants",
+      "scientific_name": "Sorbus aucuparia",
+      "polish_name": "jarzab pospolity",
+      "english_name": "rowan"
+    },
+    "PLANT_12": {
+      "label_id": "PLANT_12",
+      "kingdom": "plants",
+      "scientific_name": "Corylus avellana",
+      "polish_name": "leszczyna pospolita",
+      "english_name": "common hazel"
+    },
+    "PLANT_13": {
+      "label_id": "PLANT_13",
+      "kingdom": "plants",
+      "scientific_name": "Vaccinium myrtillus",
+      "polish_name": "borowka czarna",
+      "english_name": "bilberry"
+    },
+    "PLANT_14": {
+      "label_id": "PLANT_14",
+      "kingdom": "plants",
+      "scientific_name": "Vaccinium vitis-idaea",
+      "polish_name": "borowka brusznica",
+      "english_name": "lingonberry"
+    },
+    "PLANT_15": {
+      "label_id": "PLANT_15",
+      "kingdom": "plants",
+      "scientific_name": "Calluna vulgaris",
+      "polish_name": "wrzos zwyczajny",
+      "english_name": "heather"
+    },
+    "PLANT_16": {
+      "label_id": "PLANT_16",
+      "kingdom": "plants",
+      "scientific_name": "Convallaria majalis",
+      "polish_name": "konwalia majowa",
+      "english_name": "lily of the valley"
+    },
+    "PLANT_17": {
+      "label_id": "PLANT_17",
+      "kingdom": "plants",
+      "scientific_name": "Oxalis acetosella",
+      "polish_name": "szczawik zajeczy",
+      "english_name": "wood sorrel"
+    },
+    "PLANT_18": {
+      "label_id": "PLANT_18",
+      "kingdom": "plants",
+      "scientific_name": "Anemone nemorosa",
+      "polish_name": "zawilec gajowy",
+      "english_name": "wood anemone"
+    },
+    "PLANT_19": {
+      "label_id": "PLANT_19",
+      "kingdom": "plants",
+      "scientific_name": "Maianthemum bifolium",
+      "polish_name": "konwalijka dwulistna",
+      "english_name": "false lily of the valley"
+    },
+    "PLANT_20": {
+      "label_id": "PLANT_20",
+      "kingdom": "plants",
+      "scientific_name": "Pteridium aquilinum",
+      "polish_name": "orlica pospolita",
+      "english_name": "bracken"
+    },
+    "FUN_01": {
+      "label_id": "FUN_01",
+      "kingdom": "fungi",
+      "scientific_name": "Boletus edulis",
+      "polish_name": "borowik szlachetny",
+      "english_name": "king bolete"
+    },
+    "FUN_02": {
+      "label_id": "FUN_02",
+      "kingdom": "fungi",
+      "scientific_name": "Leccinum scabrum",
+      "polish_name": "kozlarz babka",
+      "english_name": "birch bolete"
+    },
+    "FUN_03": {
+      "label_id": "FUN_03",
+      "kingdom": "fungi",
+      "scientific_name": "Leccinum aurantiacum",
+      "polish_name": "kozlarz czerwony",
+      "english_name": "red-capped scaber stalk"
+    },
+    "FUN_04": {
+      "label_id": "FUN_04",
+      "kingdom": "fungi",
+      "scientific_name": "Cantharellus cibarius",
+      "polish_name": "pieprznik jadalny",
+      "english_name": "chanterelle"
+    },
+    "FUN_05": {
+      "label_id": "FUN_05",
+      "kingdom": "fungi",
+      "scientific_name": "Suillus luteus",
+      "polish_name": "maslak zwyczajny",
+      "english_name": "slippery jack"
+    },
+    "FUN_06": {
+      "label_id": "FUN_06",
+      "kingdom": "fungi",
+      "scientific_name": "Suillus bovinus",
+      "polish_name": "maslak sitarz",
+      "english_name": "Jersey cow mushroom"
+    },
+    "FUN_07": {
+      "label_id": "FUN_07",
+      "kingdom": "fungi",
+      "scientific_name": "Lactarius deliciosus",
+      "polish_name": "mleczaj rydz",
+      "english_name": "saffron milk cap"
+    },
+    "FUN_08": {
+      "label_id": "FUN_08",
+      "kingdom": "fungi",
+      "scientific_name": "Lactarius deterrimus",
+      "polish_name": "mleczaj swierkowy",
+      "english_name": "spruce milk cap"
+    },
+    "FUN_09": {
+      "label_id": "FUN_09",
+      "kingdom": "fungi",
+      "scientific_name": "Russula cyanoxantha",
+      "polish_name": "golabek zielonawofioletowy",
+      "english_name": "charcoal burner"
+    },
+    "FUN_10": {
+      "label_id": "FUN_10",
+      "kingdom": "fungi",
+      "scientific_name": "Russula claroflava",
+      "polish_name": "golabek blotny",
+      "english_name": "yellow swamp russula"
+    },
+    "FUN_11": {
+      "label_id": "FUN_11",
+      "kingdom": "fungi",
+      "scientific_name": "Macrolepiota procera",
+      "polish_name": "czubajka kania",
+      "english_name": "parasol mushroom"
+    },
+    "FUN_12": {
+      "label_id": "FUN_12",
+      "kingdom": "fungi",
+      "scientific_name": "Amanita muscaria",
+      "polish_name": "muchomor czerwony",
+      "english_name": "fly agaric"
+    },
+    "FUN_13": {
+      "label_id": "FUN_13",
+      "kingdom": "fungi",
+      "scientific_name": "Amanita phalloides",
+      "polish_name": "muchomor sromotnikowy",
+      "english_name": "death cap"
+    },
+    "FUN_14": {
+      "label_id": "FUN_14",
+      "kingdom": "fungi",
+      "scientific_name": "Armillaria mellea",
+      "polish_name": "opienka miodowa",
+      "english_name": "honey fungus"
+    },
+    "FUN_15": {
+      "label_id": "FUN_15",
+      "kingdom": "fungi",
+      "scientific_name": "Coprinus comatus",
+      "polish_name": "czernidlak kolpakowaty",
+      "english_name": "shaggy ink cap"
+    },
+    "FUN_16": {
+      "label_id": "FUN_16",
+      "kingdom": "fungi",
+      "scientific_name": "Lycoperdon perlatum",
+      "polish_name": "purchawka chropowata",
+      "english_name": "common puffball"
+    },
+    "FUN_17": {
+      "label_id": "FUN_17",
+      "kingdom": "fungi",
+      "scientific_name": "Phallus impudicus",
+      "polish_name": "sromotnik bezwstydny",
+      "english_name": "common stinkhorn"
+    },
+    "FUN_18": {
+      "label_id": "FUN_18",
+      "kingdom": "fungi",
+      "scientific_name": "Fomitopsis pinicola",
+      "polish_name": "pniarek obrzezony",
+      "english_name": "red-belted bracket"
+    },
+    "FUN_19": {
+      "label_id": "FUN_19",
+      "kingdom": "fungi",
+      "scientific_name": "Trametes versicolor",
+      "polish_name": "wrosniak roznobarwny",
+      "english_name": "turkey tail"
+    },
+    "FUN_20": {
+      "label_id": "FUN_20",
+      "kingdom": "fungi",
+      "scientific_name": "Xerocomellus chrysenteron",
+      "polish_name": "podgrzybek czerwonawy",
+      "english_name": "red cracking bolete"
+    },
+    "unknown": {
+      "label_id": "unknown",
+      "kingdom": "unknown",
+      "scientific_name": "unknown",
+      "polish_name": "nieznane",
+      "english_name": "unknown"
+    },
+    "UNK_NON_TARGET_PLANT": {
+      "label_id": "UNK_NON_TARGET_PLANT",
+      "kingdom": "plants",
+      "scientific_name": "unknown_non_target_plant",
+      "polish_name": "nieznana roslina spoza taksonomii",
+      "english_name": "unknown non-target plant",
+      "public_label_id": "unknown"
+    },
+    "UNK_NON_TARGET_FUNGUS": {
+      "label_id": "UNK_NON_TARGET_FUNGUS",
+      "kingdom": "fungi",
+      "scientific_name": "unknown_non_target_fungus",
+      "polish_name": "nieznany grzyb spoza taksonomii",
+      "english_name": "unknown non-target fungus",
+      "public_label_id": "unknown"
+    },
+    "UNK_OTHER_OR_AMBIGUOUS": {
+      "label_id": "UNK_OTHER_OR_AMBIGUOUS",
+      "kingdom": "unknown",
+      "scientific_name": "unknown_other_or_ambiguous",
+      "polish_name": "inne lub niejednoznaczne",
+      "english_name": "other or ambiguous",
+      "public_label_id": "unknown"
+    }
+  }
+}

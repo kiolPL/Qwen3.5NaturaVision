@@ -1,0 +1,41 @@
+label_id,kingdom,scientific_name,polish_name,english_name
+PLANT_01,plants,Pinus sylvestris,sosna zwyczajna,Scots pine
+PLANT_02,plants,Picea abies,swierk pospolity,Norway spruce
+PLANT_03,plants,Betula pendula,brzoza brodawkowata,silver birch
+PLANT_04,plants,Betula pubescens,brzoza omszona,downy birch
+PLANT_05,plants,Quercus robur,dab szypulkowy,pedunculate oak
+PLANT_06,plants,Quercus petraea,dab bezszypulkowy,sessile oak
+PLANT_07,plants,Fagus sylvatica,buk zwyczajny,European beech
+PLANT_08,plants,Alnus glutinosa,olsza czarna,black alder
+PLANT_09,plants,Populus tremula,osika,European aspen
+PLANT_10,plants,Acer platanoides,klon zwyczajny,Norway maple
+PLANT_11,plants,Sorbus aucuparia,jarzab pospolity,rowan
+PLANT_12,plants,Corylus avellana,leszczyna pospolita,common hazel
+PLANT_13,plants,Vaccinium myrtillus,borowka czarna,bilberry
+PLANT_14,plants,Vaccinium vitis-idaea,borowka brusznica,lingonberry
+PLANT_15,plants,Calluna vulgaris,wrzos zwyczajny,heather
+PLANT_16,plants,Convallaria majalis,konwalia majowa,lily of the valley
+PLANT_17,plants,Oxalis acetosella,szczawik zajeczy,wood sorrel
+PLANT_18,plants,Anemone nemorosa,zawilec gajowy,wood anemone
+PLANT_19,plants,Maianthemum bifolium,konwalijka dwulistna,false lily of the valley
+PLANT_20,plants,Pteridium aquilinum,orlica pospolita,bracken
+FUN_01,fungi,Boletus edulis,borowik szlachetny,king bolete
+FUN_02,fungi,Leccinum scabrum,kozlarz babka,birch bolete
+FUN_03,fungi,Leccinum aurantiacum,kozlarz czerwony,red-capped scaber stalk
+FUN_04,fungi,Cantharellus cibarius,pieprznik jadalny,chanterelle
+FUN_05,fungi,Suillus luteus,maslak zwyczajny,slippery jack
+FUN_06,fungi,Suillus bovinus,maslak sitarz,Jersey cow mushroom
+FUN_07,fungi,Lactarius deliciosus,mleczaj rydz,saffron milk cap
+FUN_08,fungi,Lactarius deterrimus,mleczaj swierkowy,spruce milk cap
+FUN_09,fungi,Russula cyanoxantha,golabek zielonawofioletowy,charcoal burner
+FUN_10,fungi,Russula claroflava,golabek blotny,yellow swamp russula
+FUN_11,fungi,Macrolepiota procera,czubajka kania,parasol mushroom
+FUN_12,fungi,Amanita muscaria,muchomor czerwony,fly agaric
+FUN_13,fungi,Amanita phalloides,muchomor sromotnikowy,death cap
+FUN_14,fungi,Armillaria mellea,opienka miodowa,honey fungus
+FUN_15,fungi,Coprinus comatus,czernidlak kolpakowaty,shaggy ink cap
+FUN_16,fungi,Lycoperdon perlatum,purchawka chropowata,common puffball
+FUN_17,fungi,Phallus impudicus,sromotnik bezwstydny,common stinkhorn
+FUN_18,fungi,Fomitopsis pinicola,pniarek obrzezony,red-belted bracket
+FUN_19,fungi,Trametes versicolor,wrosniak roznobarwny,turkey tail
+FUN_20,fungi,Xerocomellus chrysenteron,podgrzybek czerwonawy,red cracking bolete
