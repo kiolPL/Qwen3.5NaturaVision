@@ -9,6 +9,8 @@ import androidx.lifecycle.viewModelScope
 import com.naturavision.mobile.inference.ForestInferenceFactory
 import com.naturavision.mobile.inference.InferenceBackend
 import com.naturavision.mobile.model.ClassificationResult
+import com.naturavision.mobile.testing.ModelTestSuite
+import com.naturavision.mobile.testing.ModelTestSuiteReport
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -24,12 +26,15 @@ data class ForestClassifierUiState(
     val sourceLabel: String? = null,
     val isPreparingImage: Boolean = false,
     val isAnalyzing: Boolean = false,
+    val isRunningTestSuite: Boolean = false,
     val result: ClassificationResult? = null,
+    val testSuiteReport: ModelTestSuiteReport? = null,
     val errorMessage: String? = null,
 )
 
 class ForestClassifierViewModel : ViewModel() {
     private val inferenceFactory = ForestInferenceFactory()
+    private val modelTestSuite = ModelTestSuite(inferenceFactory)
     private val _uiState = MutableStateFlow(ForestClassifierUiState())
     val uiState: StateFlow<ForestClassifierUiState> = _uiState.asStateFlow()
 
@@ -39,6 +44,7 @@ class ForestClassifierViewModel : ViewModel() {
                 backend = backend,
                 errorMessage = null,
                 result = null,
+                testSuiteReport = null,
             )
         }
     }
@@ -51,6 +57,7 @@ class ForestClassifierViewModel : ViewModel() {
                 isPreparingImage = false,
                 result = null,
                 errorMessage = null,
+                testSuiteReport = null,
             )
         }
     }
@@ -62,6 +69,7 @@ class ForestClassifierViewModel : ViewModel() {
                     isPreparingImage = true,
                     errorMessage = null,
                     result = null,
+                    testSuiteReport = null,
                 )
             }
             runCatching {
@@ -85,7 +93,7 @@ class ForestClassifierViewModel : ViewModel() {
         }
     }
 
-    fun analyze() {
+    fun analyze(context: Context) {
         val bitmap = _uiState.value.selectedBitmap ?: run {
             _uiState.update { it.copy(errorMessage = "Najpierw wybierz zdjęcie do analizy.") }
             return
@@ -100,7 +108,7 @@ class ForestClassifierViewModel : ViewModel() {
                 )
             }
             runCatching {
-                inferenceFactory.create(backend).classify(bitmap)
+                inferenceFactory.create(backend, context.applicationContext).classify(bitmap)
             }.onSuccess { result ->
                 _uiState.update {
                     it.copy(
@@ -119,8 +127,40 @@ class ForestClassifierViewModel : ViewModel() {
         }
     }
 
+    fun runModelTestSuite(context: Context) {
+        viewModelScope.launch {
+            _uiState.update {
+                it.copy(
+                    isRunningTestSuite = true,
+                    errorMessage = null,
+                    testSuiteReport = null,
+                )
+            }
+            runCatching {
+                modelTestSuite.run(context.applicationContext)
+            }.onSuccess { report ->
+                _uiState.update {
+                    it.copy(
+                        isRunningTestSuite = false,
+                        testSuiteReport = report,
+                    )
+                }
+            }.onFailure { throwable ->
+                _uiState.update {
+                    it.copy(
+                        isRunningTestSuite = false,
+                        errorMessage = throwable.message ?: "Test suite nie zakonczyl sie poprawnie.",
+                    )
+                }
+            }
+        }
+    }
+
     fun clearSelection() {
-        _uiState.value = ForestClassifierUiState(backend = _uiState.value.backend)
+        _uiState.value = ForestClassifierUiState(
+            backend = _uiState.value.backend,
+            testSuiteReport = _uiState.value.testSuiteReport,
+        )
     }
 
     private suspend fun decodeBitmap(context: Context, uri: Uri): Bitmap = withContext(Dispatchers.IO) {

@@ -30,6 +30,7 @@ class MockForestInferenceEngine : ForestInferenceEngine {
             .put("kingdom", species.kingdom.name.lowercase())
             .put("scientific_name", species.scientificName)
             .put("polish_name", species.polishName)
+            .put("english_name", species.englishName)
             .toString(2)
 
         return ClassificationResult(

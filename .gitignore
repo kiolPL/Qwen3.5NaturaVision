@@ -4,9 +4,15 @@ __pycache__/
 .venv-*/
 .venv-train/
 .venv-train-wsl/
+.playwright-mcp/
+_matura_ocena/
 *.pyc
 *.pyo
 *.log
+[Bb]in/
+[Oo]bj/
+*.user
+*.suo
 
 artifacts/
 runs/
@@ -14,6 +20,8 @@ runs/
 tmp*/
 logs/
 output/
+**/.cxx/
+naturavision_u*.bin
 
 data/attribution.csv
 data/labels.json

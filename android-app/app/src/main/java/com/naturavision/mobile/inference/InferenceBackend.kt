@@ -6,10 +6,10 @@ enum class InferenceBackend(
 ) {
     MOCK(
         title = "Demo",
-        description = "Działa od razu i pozwala przetestować cały interfejs bez gotowego modelu.",
+        description = "Dziala od razu i pozwala przetestowac caly interfejs bez wag modelu.",
     ),
     LOCAL_MODEL(
         title = "Model lokalny",
-        description = "Docelowe miejsce pod integrację GGUF lub JNI po zakończeniu treningu.",
+        description = "Docelowa sciezka dla pelnego modelu GGUF z projektorem obrazu i runtime JNI. Sam adapter QLoRA nie wystarcza do inferencji.",
     ),
 }

@@ -1,10 +1,16 @@
 package com.naturavision.mobile.inference
 
-class ForestInferenceFactory(
-    private val localModelRunner: LocalModelRunner = UnwiredLocalModelRunner(),
-) {
-    fun create(backend: InferenceBackend): ForestInferenceEngine = when (backend) {
+import android.content.Context
+
+class ForestInferenceFactory {
+    fun create(
+        backend: InferenceBackend,
+        context: Context? = null,
+    ): ForestInferenceEngine = when (backend) {
         InferenceBackend.MOCK -> MockForestInferenceEngine()
-        InferenceBackend.LOCAL_MODEL -> JsonForestInferenceEngine(localModelRunner)
+        InferenceBackend.LOCAL_MODEL -> JsonForestInferenceEngine(
+            context?.let { LlamaCppLocalModelRunner(it.applicationContext) }
+                ?: UnwiredLocalModelRunner(),
+        )
     }
 }

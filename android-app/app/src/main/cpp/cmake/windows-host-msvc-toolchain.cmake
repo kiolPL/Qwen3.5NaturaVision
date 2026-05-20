@@ -1,0 +1,5 @@
+set(CMAKE_C_COMPILER "C:/tmp/naturavision-android-sdk/ndk/27.0.12077973/toolchains/llvm/prebuilt/windows-x86_64/bin/clang-cl.exe")
+set(CMAKE_CXX_COMPILER "C:/tmp/naturavision-android-sdk/ndk/27.0.12077973/toolchains/llvm/prebuilt/windows-x86_64/bin/clang-cl.exe")
+set(CMAKE_FIND_ROOT_PATH_MODE_PROGRAM NEVER)
+set(CMAKE_FIND_ROOT_PATH_MODE_LIBRARY NEVER)
+set(CMAKE_FIND_ROOT_PATH_MODE_INCLUDE NEVER)

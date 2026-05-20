@@ -20,7 +20,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.weight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.selection.SelectionContainer
@@ -58,8 +57,12 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.naturavision.mobile.data.TaxonomyCatalog
 import com.naturavision.mobile.inference.InferenceBackend
 import com.naturavision.mobile.model.ClassificationResult
+import com.naturavision.mobile.model.ForestSpecies
+import com.naturavision.mobile.testing.ModelTestStatus
+import com.naturavision.mobile.testing.ModelTestSuiteReport
 
 @Composable
 fun NaturaVisionRoute(
@@ -90,9 +93,10 @@ fun NaturaVisionRoute(
             )
         },
         onCapturePhoto = { cameraLauncher.launch(null) },
-        onAnalyze = viewModel::analyze,
+        onAnalyze = { viewModel.analyze(context.applicationContext) },
         onClear = viewModel::clearSelection,
         onBackendSelected = viewModel::setBackend,
+        onRunModelTestSuite = { viewModel.runModelTestSuite(context.applicationContext) },
     )
 }
 
@@ -105,6 +109,7 @@ private fun NaturaVisionScreen(
     onAnalyze: () -> Unit,
     onClear: () -> Unit,
     onBackendSelected: (InferenceBackend) -> Unit,
+    onRunModelTestSuite: () -> Unit,
 ) {
     Scaffold(
         topBar = {
@@ -157,6 +162,13 @@ private fun NaturaVisionScreen(
                     onAnalyze = onAnalyze,
                 )
             }
+            item {
+                ModelTestSuiteCard(
+                    isRunning = state.isRunningTestSuite,
+                    report = state.testSuiteReport,
+                    onRun = onRunModelTestSuite,
+                )
+            }
             state.errorMessage?.let { error ->
                 item {
                     StatusCard(
@@ -169,6 +181,9 @@ private fun NaturaVisionScreen(
                 item {
                     ResultCard(result)
                 }
+            }
+            item {
+                SpeciesCatalogCard()
             }
         }
     }
@@ -363,6 +378,152 @@ private fun AnalyzeCard(
 }
 
 @Composable
+private fun ModelTestSuiteCard(
+    isRunning: Boolean,
+    report: ModelTestSuiteReport?,
+    onRun: () -> Unit,
+) {
+    Card {
+        Column(
+            modifier = Modifier.padding(16.dp),
+            verticalArrangement = Arrangement.spacedBy(12.dp),
+        ) {
+            Text("Test suite modelu", style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.SemiBold)
+            Text(
+                "Dedykowany zestaw testow do uruchomienia bezposrednio na telefonie. Sprawdza katalog klas, parser JSON, prompt oraz smoke test inferencji.",
+                style = MaterialTheme.typography.bodyMedium,
+            )
+            Button(
+                onClick = onRun,
+                enabled = !isRunning,
+                modifier = Modifier.fillMaxWidth(),
+            ) {
+                if (isRunning) {
+                    CircularProgressIndicator(
+                        modifier = Modifier.size(20.dp),
+                        strokeWidth = 2.dp,
+                    )
+                    Spacer(Modifier.width(8.dp))
+                    Text("Uruchamiam testy...")
+                } else {
+                    Text("Uruchom test suite")
+                }
+            }
+
+            report?.let { suite ->
+                AssistChip(
+                    onClick = {},
+                    label = { Text("${suite.summaryLine} / ${suite.elapsedMs} ms") },
+                )
+                Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                    suite.results.forEach { result ->
+                        TestCaseRow(
+                            status = result.status,
+                            name = result.name,
+                            details = result.details,
+                        )
+                    }
+                }
+            }
+        }
+    }
+}
+
+@Composable
+private fun TestCaseRow(
+    status: ModelTestStatus,
+    name: String,
+    details: String,
+) {
+    val statusLabel = when (status) {
+        ModelTestStatus.PASS -> "PASS"
+        ModelTestStatus.WARNING -> "WARN"
+        ModelTestStatus.FAIL -> "FAIL"
+    }
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clip(RoundedCornerShape(14.dp))
+            .background(MaterialTheme.colorScheme.surfaceVariant)
+            .padding(12.dp),
+        horizontalArrangement = Arrangement.spacedBy(10.dp),
+    ) {
+        Text(
+            text = statusLabel,
+            modifier = Modifier.width(52.dp),
+            style = MaterialTheme.typography.labelLarge,
+            fontWeight = FontWeight.Bold,
+        )
+        Column(modifier = Modifier.weight(1f)) {
+            Text(name, style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.SemiBold)
+            Text(details, style = MaterialTheme.typography.bodySmall)
+        }
+    }
+}
+
+@Composable
+private fun SpeciesCatalogCard() {
+    Card {
+        Column(
+            modifier = Modifier.padding(16.dp),
+            verticalArrangement = Arrangement.spacedBy(14.dp),
+        ) {
+            Text("Katalog gatunkow modelu", style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.SemiBold)
+            Text(
+                "Aplikacja ma lokalnie zapisane informacje o kazdej publicznej klasie modelu: label_id, krolestwo, nazwe polska, lacinska i angielska.",
+                style = MaterialTheme.typography.bodyMedium,
+            )
+            Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                AssistChip(onClick = {}, label = { Text("${TaxonomyCatalog.plants.size} roslin") })
+                AssistChip(onClick = {}, label = { Text("${TaxonomyCatalog.fungi.size} grzybow") })
+                AssistChip(onClick = {}, label = { Text("+ unknown") })
+            }
+            SpeciesSection(title = "Rosliny", species = TaxonomyCatalog.plants)
+            SpeciesSection(title = "Grzyby", species = TaxonomyCatalog.fungi)
+            SpeciesRow(ForestSpecies.Unknown)
+        }
+    }
+}
+
+@Composable
+private fun SpeciesSection(
+    title: String,
+    species: List<ForestSpecies>,
+) {
+    Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+        Text(title, style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.SemiBold)
+        species.forEach { item ->
+            SpeciesRow(item)
+        }
+    }
+}
+
+@Composable
+private fun SpeciesRow(species: ForestSpecies) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clip(RoundedCornerShape(12.dp))
+            .background(MaterialTheme.colorScheme.surfaceVariant)
+            .padding(10.dp),
+        horizontalArrangement = Arrangement.spacedBy(10.dp),
+        verticalAlignment = Alignment.Top,
+    ) {
+        Text(
+            species.labelId,
+            modifier = Modifier.width(78.dp),
+            style = MaterialTheme.typography.labelLarge,
+            fontWeight = FontWeight.Bold,
+        )
+        Column(modifier = Modifier.weight(1f)) {
+            Text(species.polishName, style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.SemiBold)
+            Text(species.scientificName, style = MaterialTheme.typography.bodySmall)
+            Text("${species.englishName} | ${species.kingdomLabel}", style = MaterialTheme.typography.bodySmall)
+        }
+    }
+}
+
+@Composable
 private fun StatusCard(
     title: String,
     text: String,
@@ -389,6 +550,7 @@ private fun ResultCard(result: ClassificationResult) {
             Text("Wynik", style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.SemiBold)
             Text(result.species.titleLine, style = MaterialTheme.typography.headlineSmall, fontWeight = FontWeight.Bold)
             Text(result.species.scientificName, style = MaterialTheme.typography.bodyLarge)
+            Text(result.species.englishName, style = MaterialTheme.typography.bodyMedium)
 
             FlowRow(
                 horizontalArrangement = Arrangement.spacedBy(8.dp),
@@ -397,6 +559,10 @@ private fun ResultCard(result: ClassificationResult) {
                 AssistChip(
                     onClick = {},
                     label = { Text(result.species.labelId) },
+                )
+                AssistChip(
+                    onClick = {},
+                    label = { Text(result.species.kingdomLabel) },
                 )
                 AssistChip(
                     onClick = {},

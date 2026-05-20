@@ -5,9 +5,20 @@ data class ForestSpecies(
     val kingdom: Kingdom,
     val scientificName: String,
     val polishName: String,
+    val englishName: String,
 ) {
     val titleLine: String
-        get() = if (labelId == UNKNOWN_LABEL_ID) "Nieznany gatunek" else polishName
+        get() = if (labelId == UNKNOWN_LABEL_ID) "Poza rozpoznawana taksonomia" else polishName
+
+    val kingdomLabel: String
+        get() = when (kingdom) {
+            Kingdom.PLANTS -> "Rosliny"
+            Kingdom.FUNGI -> "Grzyby"
+            Kingdom.UNKNOWN -> "Unknown"
+        }
+
+    val isKnownTarget: Boolean
+        get() = kingdom != Kingdom.UNKNOWN
 
     enum class Kingdom {
         PLANTS,
@@ -23,6 +34,7 @@ data class ForestSpecies(
             kingdom = Kingdom.UNKNOWN,
             scientificName = "unknown",
             polishName = "unknown",
+            englishName = "unknown",
         )
     }
 }

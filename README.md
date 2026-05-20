@@ -30,6 +30,7 @@ Local fine-tuning pipeline for a compact Qwen 3.5 vision-language model that ide
 - `train/train_qwen35_4b_lora_lambda.sh`: conservative multi-GPU launcher for a `4x A100` Lambda run.
 - `train/train_qwen35_4b_smoke_lambda.sh`: short end-to-end smoke test before the full cloud run.
 - `train/export_gguf.sh`: merges LoRA weights and quantizes the merged checkpoint to GGUF.
+- `desktop-app/`: Windows WPF desktop client for local GGUF inference through `llama-mtmd-cli.exe`.
 - `docs/wsl_4070_qlora_runbook.md`: step-by-step local WSL2 runbook for `RTX 4070 12 GB`.
 - `docs/lambda_a100_runbook.md`: step-by-step cloud runbook for the recommended Lambda setup.
 
@@ -52,6 +53,55 @@ For the local `WSL2 + RTX 4070 12 GB` path, use:
 ```bash
 bash train/bootstrap_wsl_qlora.sh
 ```
+
+## Quick desktop demo
+
+The easiest way to run the finished project is the Windows desktop app in `desktop-app/`.
+
+Requirements for the verified local setup:
+
+- Windows 11 on x64,
+- .NET 9 SDK,
+- NVIDIA GPU with current drivers,
+- CUDA-enabled `llama.cpp` build with `llama-mtmd-cli.exe`,
+- exported NaturaVision GGUF model and multimodal projector.
+
+The model weights are not stored in this Git repository. Download them from the project Hugging Face repository and place them in the default local folder, or choose different paths in the app under `Ustawienia`:
+
+```powershell
+hf download kiolPL/naturavision `
+  forest-taxa-qwen35-4b-q4_k_m-fixed.gguf `
+  forest-taxa-qwen35-4b-mmproj-f16.gguf `
+  --local-dir D:\NaturaVisionPortable\wsl_recovery\gguf
+```
+
+The app defaults to these paths on the development workstation:
+
+```text
+C:\tmp\llama-b9245-bin-win-cuda-13.1-x64\llama-mtmd-cli.exe
+D:\NaturaVisionPortable\wsl_recovery\gguf\forest-taxa-qwen35-4b-q4_k_m-fixed.gguf
+D:\NaturaVisionPortable\wsl_recovery\gguf\forest-taxa-qwen35-4b-mmproj-f16.gguf
+D:\NaturaVisionPortable\portable_dataset\test.jsonl
+```
+
+Run the app from the repository root:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File .\desktop-app\run-desktop.ps1
+```
+
+In the UI:
+
+- use `Wybierz` to load a JPG/PNG/WebP image,
+- use `Zrzut ekranu` to capture an object from the screen through the Windows snipping overlay,
+- use `Rozpoznaj` to run the local model,
+- expand `Wynik` to see the predicted class, species photo, short Polish description and source link,
+- expand `Katalog` to browse all supported taxa,
+- expand `Ustawienia` only when changing runner/model/test paths.
+
+### Snapdragon / Windows on Arm note
+
+The WPF interface should run on a Windows on Arm laptop such as a Vivobook S15 with Snapdragon X Elite and 32 GB RAM, but the verified inference setup will not run there unchanged. The current runner path uses an x64 CUDA `llama.cpp` build for an NVIDIA RTX GPU. Snapdragon machines do not provide CUDA, so they need a separate Windows Arm64 `llama.cpp` build, ideally with CPU/OpenCL support for Adreno, and a separate performance smoke test. The 32 GB RAM budget is enough for the Q4 model files, but this is a porting target, not the default deployment path.
 
 ## Data flow
 
@@ -198,6 +248,22 @@ See:
 - `android-app/README.md`
 
 for the integration notes and the exact future hook point for the local model.
+
+## Desktop app
+
+The repository also includes a Windows desktop client in:
+
+```text
+desktop-app/
+```
+
+It is a WPF application that runs the exported GGUF model with `llama-mtmd-cli.exe`, supports native Windows screen snips as image input, shows the full supported taxonomy with cached Polish descriptions and images, maps generated `label_id` values back to species metadata, and includes a small test-suite button for quick smoke checks on `test.jsonl`. On the current workstation it defaults to the CUDA 13.1 `llama.cpp` build in `C:\tmp\llama-b9245-bin-win-cuda-13.1-x64` with `GPU layers = 99`.
+
+Run it with:
+
+```powershell
+.\desktop-app\run-desktop.ps1
+```
 
 ## Notes
 
