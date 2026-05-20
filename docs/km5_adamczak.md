@@ -16,7 +16,7 @@ Zakres dokumentu: ten kamien milowy opisuje probe uruchomienia modelu w aplikacj
 
 ## 1. Cel kamienia milowego
 
-Celem tego etapu bylo przejscie od wytrenowanego checkpointu do aplikacji, ktora mozna pokazac jako dzialajacy prototyp. Poczatkowo zakladalem aplikacje mobilna, poniewaz taki interfejs najlepiej pasuje do rozpoznawania organizmow w terenie. W praktyce najwiekszym ryzykiem okazal sie jednak nie sam interfejs, tylko lokalny runtime modelu multimodalnego na telefonie.
+Celem tego etapu bylo przejscie od wytrenowanego checkpointu do aplikacji, ktora mozna pokazac jako dzialajacy prototyp. Poczatkowo zakladalem aplikacje mobilna, poniewaz taki sposob pracy najlepiej pasuje do rozpoznawania organizmow w terenie. W praktyce najwiekszym ryzykiem okazal sie lokalny runtime modelu multimodalnego na telefonie.
 
 Po diagnostyce zdecydowalem sie przygotowac aplikacje desktopowa. Ta decyzja nie oznacza porzucenia aplikacji mobilnej jako pomyslu docelowego, ale byla bardziej realistyczna dla obecnego kamienia milowego: desktop pozwala pokazac model w dzialaniu na sprawdzonym sprzecie, bez ukrywania problemow z backendem Android/Vulkan.
 
@@ -45,7 +45,7 @@ Dodatkowo przygotowalem strukture pod realny lokalny model GGUF. Aplikacja szuka
 
 Testy na telefonie zaczalem od sciezki CPU, poniewaz byla najprostsza i najbardziej przewidywalna diagnostycznie. Ten wariant mial sens jako punkt odniesienia, ale dla lokalnego modelu multimodalnego klasy `4B` byl zbyt wolny do sensownej demonstracji. Z tego powodu przeszedlem na akceleracje przez GPU Adreno z backendem Vulkan. Ten krok byl logiczny, bo pozwalal zachowac najwazniejsze zalozenie projektu, czyli inferencje lokalna na urzadzeniu, a jednoczesnie probowal wykorzystac sprzetowa akceleracje telefonu zamiast liczyc tylko na procesor.
 
-Problemy pojawily sie dopiero po przejsciu na sciezke Adreno/Vulkan. Aplikacja potrafila uruchomic logike UI i test suite, a model oraz projektor byly odnajdywane. Backend zaczynal generacje, ale odpowiedz modelu ulegala degeneracji. Dlatego najwazniejszy problem nie wygladal na zwykly brak pamieci RAM, tylko na niestabilnosc konkretnej sciezki uruchomieniowej.
+Problemy pojawily sie dopiero po przejsciu na sciezke Adreno/Vulkan. Aplikacja potrafila uruchomic warstwe testowa, a model oraz projektor byly odnajdywane. Backend zaczynal generacje, ale odpowiedz modelu ulegala degeneracji. Dlatego najwazniejszy problem nie wygladal na zwykly brak pamieci RAM, tylko na niestabilnosc konkretnej sciezki uruchomieniowej.
 
 Najwazniejsze obserwacje po przejsciu na Vulkan/Adreno:
 
@@ -55,7 +55,7 @@ Najwazniejsze obserwacje po przejsciu na Vulkan/Adreno:
 - przy zwiekszaniu liczby tokenow obrazu roslo ryzyko niestabilnosci backendu,
 - wymagania modelu multimodalnego byly trudniejsze niz dla zwyklego modelu tekstowego.
 
-Wniosek: problem byl zwiazany glownie ze sciezka backendu `Android + Vulkan/Adreno + llama.cpp mtmd`, a nie z brakiem samego interfejsu aplikacji. CPU bylo zbyt wolne jako docelowa demonstracja, a Adreno/Vulkan dawalo potrzebna akceleracje, ale w praktyce okazalo sie niestabilne dla tego konkretnego multimodalnego modelu i konfiguracji.
+Wniosek: problem byl zwiazany glownie ze sciezka backendu `Android + Vulkan/Adreno + llama.cpp mtmd`. CPU bylo zbyt wolne jako docelowa demonstracja, a Adreno/Vulkan dawalo potrzebna akceleracje, ale w praktyce okazalo sie niestabilne dla tego konkretnego multimodalnego modelu i konfiguracji. Byla to zbyt niszowa sciezka uruchomieniowa: lokalny model Qwen3.5 multimodalny, wlasny eksport GGUF, `llama.cpp mtmd`, Android i Vulkan/Adreno nie mialy wystarczajaco dojrzalego wsparcia, zeby traktowac telefon jako pewna platforme demonstracyjna.
 
 ![Screenshot 2 - Android runner warning](Screenshots/km5/02_android_runner_warning.png)
 
@@ -65,7 +65,7 @@ Wniosek: problem byl zwiazany glownie ze sciezka backendu `Android + Vulkan/Adre
 
 ## 4. Dlaczego wybralem desktop zamiast finalizowania mobile
 
-Zdecydowalem, ze w tym kamieniu milowym nie bede finalizowal aplikacji mobilnej, poniewaz glownym celem tematu nie byla sama aplikacja na telefon, tylko lokalny model rozpoznajacy rosliny i grzyby. Aplikacja mobilna byla jednym z mozliwych sposobow pokazania modelu, ale nie powinna zastapic glownego celu projektu. Jesli telefonowy runtime nie dzialal stabilnie, to dalsze dopracowywanie UI Androida nie rozwiazywalo najwazniejszego problemu.
+Zdecydowalem, ze w tym kamieniu milowym nie bede finalizowal aplikacji mobilnej, poniewaz glownym celem tematu nie byla sama aplikacja na telefon, tylko lokalny model rozpoznajacy rosliny i grzyby. Aplikacja mobilna byla jednym z mozliwych sposobow pokazania modelu, ale nie powinna zastapic glownego celu projektu. Jesli telefonowy runtime nie dzialal stabilnie, to dalsze rozwijanie klienta Android nie rozwiazywalo najwazniejszego problemu.
 
 W tej sytuacji lepszym wyborem bylo przygotowanie aplikacji desktopowej, ktora nadal spelnia glowne zalozenie: model dziala lokalnie, bez wysylania obrazu do zewnetrznej uslugi. Desktop pozwolil pokazac realna inferencje na sprawdzonym sprzecie, zamiast budowac demonstracje wokol niestabilnej sciezki mobilnej.
 
@@ -78,7 +78,7 @@ Najwazniejsze powody decyzji:
 - desktop pozwalal pokazac ten sam model w bardziej kontrolowanych warunkach,
 - lokalna inferencja pozostala zachowana, czyli najwazniejsze zalozenie projektu nie zostalo zmienione.
 
-To byla decyzja inzynierska: nie zmienialem celu projektu, tylko zmienilem interfejs demonstracyjny. Zamiast maskowac problem w aplikacji telefonicznej, pokazalem dzialajacy lokalny model w wariancie desktopowym i opisalem, dlaczego mobilny runtime wymaga osobnego etapu prac.
+To byla decyzja inzynierska: nie zmienialem celu projektu, tylko zmienilem platforme demonstracyjna. Zamiast maskowac problem w aplikacji telefonicznej, pokazalem dzialajacy lokalny model w wariancie desktopowym i opisalem, dlaczego mobilny runtime wymaga osobnego etapu prac.
 
 ---
 
@@ -88,7 +88,7 @@ Po decyzji o zmianie sciezki przygotowalem aplikacje desktopowa w WPF. Jej glown
 
 Najwazniejsze funkcje aplikacji desktopowej:
 
-- duze pole obrazu jako centralny element UI,
+- duze pole obrazu jako centralny element ekranu,
 - przycisk `Wybierz` do wczytywania pliku,
 - przycisk `Zrzut ekranu`, ktory korzysta z natywnego narzedzia Windows do wycinania fragmentu ekranu,
 - przycisk `Rozpoznaj` do uruchomienia modelu,
@@ -145,22 +145,7 @@ Opisy pochodza z polskiej Wikipedii. Zdjecia sa cache'owane lokalnie: tam, gdzie
 
 ---
 
-## 8. Przenosnosc na inne komputery
-
-Na komputerze z RTX 4070 aplikacja ma gotowa, zweryfikowana sciezke uruchomienia. Na laptopach Windows on Arm, takich jak Vivobook S15 ze Snapdragon X Elite i 32 GB RAM, sytuacja jest inna. Sam interfejs WPF powinien sie uruchomic, ale domyslny runner modelu nie jest przenosny, poniewaz uzywa x64 CUDA i wymaga GPU NVIDIA.
-
-Dla Snapdragon X Elite potrzebny bylby osobny port:
-
-- natywny build `llama.cpp` dla Windows Arm64,
-- backend CPU albo OpenCL dla Adreno,
-- osobny smoke test multimodalny,
-- ewentualnie mniejszy wariant modelu, jesli wydajnosc bedzie za niska.
-
-32 GB RAM powinno wystarczyc na model Q4, ale to nie gwarantuje szybkiej ani stabilnej inferencji. Najwieksza roznica dotyczy nie RAM-u, tylko akceleracji.
-
----
-
-## 9. Walidacja wykonanej pracy
+## 8. Walidacja wykonanej pracy
 
 Wykonane sprawdzenia:
 
@@ -180,8 +165,8 @@ Mozliwe dalsze rozszerzenie dokumentu:
 
 ---
 
-## 10. Wnioski
+## 9. Wnioski
 
-Ten kamien milowy byl mniej o samym trenowaniu, a bardziej o praktycznym wdrozeniu modelu. Najwazniejsza lekcja jest taka, ze dobry wynik checkpointu nie oznacza automatycznie, ze model bedzie latwy do uruchomienia na kazdym urzadzeniu. W przypadku aplikacji mobilnej ograniczeniem okazal sie runtime multimodalny, a nie sam projekt UI.
+Ten kamien milowy byl mniej o samym trenowaniu, a bardziej o praktycznym wdrozeniu modelu. Najwazniejsza lekcja jest taka, ze dobry wynik checkpointu nie oznacza automatycznie, ze model bedzie latwy do uruchomienia na kazdym urzadzeniu. W przypadku aplikacji mobilnej ograniczeniem okazal sie bardzo niszowy runtime multimodalny bez wystarczajaco stabilnego wsparcia Vulkan/Adreno dla tej konfiguracji.
 
 Ostatecznie przygotowalem stabilniejsza aplikacje desktopowa, ktora lepiej nadaje sie do demonstracji obecnego stanu projektu. Aplikacja pokazuje caly przeplyw: obraz wejsciowy, lokalna inferencja, wynik klasyfikacji, opis gatunku i katalog taksonomii. Mobilna sciezka zostaje jako mozliwy kierunek dalszego rozwoju, ale wymaga osobnego portu i testow backendu.
