@@ -55,15 +55,19 @@ Najwazniejsze obserwacje diagnostyczne:
 
 Wniosek: problem byl zwiazany glownie ze sciezka backendu `Android + Vulkan/Adreno + llama.cpp mtmd`, a nie z brakiem samego interfejsu aplikacji.
 
+W diagnostyce najpierw rozwazalem uruchomienie modelu na CPU telefonu, poniewaz byla to najprostsza i najbardziej przewidywalna sciezka. Szybko okazalo sie jednak, ze dla lokalnego modelu multimodalnego klasy `4B` CPU bylby zbyt wolny do sensownej demonstracji. Dlatego przeszedlem na akceleracje przez GPU Adreno, uzywajac backendu Vulkan. Ten krok byl logiczny, bo pozwalal zachowac najwazniejsze zalozenie projektu, czyli inferencje lokalna na urzadzeniu, ale jednoczesnie probowal wykorzystac sprzetowa akceleracje telefonu zamiast liczyc tylko na procesor.
+
 ![Screenshot 2 - Android runner warning](Screenshots/km5/02_android_runner_warning.png)
 
 **Zrzut 2.** Ostrzezenie lub log diagnostyczny runnera na telefonie. Screenshot powinien pokazac, ze aplikacja dochodzi do etapu lokalnego backendu, ale wynik nie jest jeszcze stabilny.
 
 ---
 
-## 4. Dlaczego zrezygnowalem z mobilnej sciezki w tym etapie
+## 4. Dlaczego wybralem desktop zamiast finalizowania mobile
 
-Zrezygnowalem z finalizowania aplikacji mobilnej w tym kamieniu milowym, poniewaz grozilo to oddaniem prototypu, ktory dobrze wyglada w UI, ale nie wykonuje stabilnie najwazniejszej funkcji projektu. W takim przypadku problemem nie bylaby kosmetyka, tylko zaufanie do calej demonstracji.
+Zdecydowalem, ze w tym kamieniu milowym nie bede finalizowal aplikacji mobilnej, poniewaz glownym celem tematu nie byla sama aplikacja na telefon, tylko lokalny model rozpoznajacy rosliny i grzyby. Aplikacja mobilna byla jednym z mozliwych sposobow pokazania modelu, ale nie powinna zastapic glownego celu projektu. Jesli telefonowy runtime nie dzialal stabilnie, to dalsze dopracowywanie UI Androida nie rozwiazywalo najwazniejszego problemu.
+
+W tej sytuacji lepszym wyborem bylo przygotowanie aplikacji desktopowej, ktora nadal spelnia glowne zalozenie: model dziala lokalnie, bez wysylania obrazu do zewnetrznej uslugi. Desktop pozwolil pokazac realna inferencje na sprawdzonym sprzecie, zamiast budowac demonstracje wokol niestabilnej sciezki mobilnej.
 
 Najwazniejsze powody decyzji:
 
@@ -71,9 +75,10 @@ Najwazniejsze powody decyzji:
 - Qwen3.5 jako model multimodalny jest bardziej wrazliwy na backend niz prostsze modele tekstowe,
 - stabilna inferencja wymagala wysokiej liczby tokenow obrazu, co pogarszalo sytuacje na telefonie,
 - utrzymywanie aplikacji mobilnej jako glownego demo wymagaloby osobnego portu runtime, np. CPU/OpenCL albo mniejszego modelu,
-- desktop pozwalal pokazac ten sam model w bardziej kontrolowanych warunkach.
+- desktop pozwalal pokazac ten sam model w bardziej kontrolowanych warunkach,
+- lokalna inferencja pozostala zachowana, czyli najwazniejsze zalozenie projektu nie zostalo zmienione.
 
-To byla decyzja inzynierska: lepiej pokazac dzialajacy wariant desktopowy i uczciwie opisac ryzyko mobilne, niz maskowac problem w aplikacji telefonicznej.
+To byla decyzja inzynierska: nie zmienialem celu projektu, tylko zmienilem interfejs demonstracyjny. Zamiast maskowac problem w aplikacji telefonicznej, pokazalem dzialajacy lokalny model w wariancie desktopowym i opisalem, dlaczego mobilny runtime wymaga osobnego etapu prac.
 
 ---
 
