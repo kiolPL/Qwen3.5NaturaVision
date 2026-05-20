@@ -165,10 +165,12 @@ Wykonane sprawdzenia:
 - wynik predykcji jest mapowany z `label_id` na pelne informacje o gatunku,
 - README opisuje, jak pobrac wagi i uruchomic aplikacje.
 
-Do uzupelnienia przed finalnym oddaniem:
+![Screenshot 6 - Desktop test suite](Screenshots/km5/06_desktop_test_suite.png)
 
-- wykonac screenshoty pod nazwami z tego dokumentu,
-- wstawic je do `docs/Screenshots/km5/`,
+**Zrzut 6.** Test suite w aplikacji desktopowej. Screenshot pokazuje krotki test na trzech przykladach, w ktorym aplikacja poprawnie odczytala oczekiwane klasy i uzyskala wynik `3/3`.
+
+Mozliwe dalsze rozszerzenie dokumentu:
+
 - opcjonalnie wygenerowac PDF po dodaniu obrazow.
 
 ---
