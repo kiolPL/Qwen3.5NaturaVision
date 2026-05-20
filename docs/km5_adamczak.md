@@ -43,9 +43,11 @@ Dodatkowo przygotowalem strukture pod realny lokalny model GGUF. Aplikacja szuka
 
 ## 3. Co nie zadzialalo na telefonie
 
-Testy na telefonie pokazaly, ze aplikacja potrafi uruchomic logike UI i test suite, ale lokalna inferencja przez natywny runner nie byla wiarygodna. Najwazniejszy problem nie wygladal na zwykly brak pamieci RAM. Model i projektor byly odnajdywane, a backend zaczynal generacje, ale odpowiedz modelu ulegala degeneracji.
+Testy na telefonie zaczalem od sciezki CPU, poniewaz byla najprostsza i najbardziej przewidywalna diagnostycznie. Ten wariant mial sens jako punkt odniesienia, ale dla lokalnego modelu multimodalnego klasy `4B` byl zbyt wolny do sensownej demonstracji. Z tego powodu przeszedlem na akceleracje przez GPU Adreno z backendem Vulkan. Ten krok byl logiczny, bo pozwalal zachowac najwazniejsze zalozenie projektu, czyli inferencje lokalna na urzadzeniu, a jednoczesnie probowal wykorzystac sprzetowa akceleracje telefonu zamiast liczyc tylko na procesor.
 
-Najwazniejsze obserwacje diagnostyczne:
+Problemy pojawily sie dopiero po przejsciu na sciezke Adreno/Vulkan. Aplikacja potrafila uruchomic logike UI i test suite, a model oraz projektor byly odnajdywane. Backend zaczynal generacje, ale odpowiedz modelu ulegala degeneracji. Dlatego najwazniejszy problem nie wygladal na zwykly brak pamieci RAM, tylko na niestabilnosc konkretnej sciezki uruchomieniowej.
+
+Najwazniejsze obserwacje po przejsciu na Vulkan/Adreno:
 
 - profil `phone_vulkan_current` generowal odpowiedz w stylu `{"label_id":"!!!!!!!!...`,
 - profil `phone_vulkan_no_flash` zmienial blad na powtarzajace sie spacje, ale nadal nie dawal poprawnej klasy,
@@ -53,9 +55,7 @@ Najwazniejsze obserwacje diagnostyczne:
 - przy zwiekszaniu liczby tokenow obrazu roslo ryzyko niestabilnosci backendu,
 - wymagania modelu multimodalnego byly trudniejsze niz dla zwyklego modelu tekstowego.
 
-Wniosek: problem byl zwiazany glownie ze sciezka backendu `Android + Vulkan/Adreno + llama.cpp mtmd`, a nie z brakiem samego interfejsu aplikacji.
-
-W diagnostyce najpierw rozwazalem uruchomienie modelu na CPU telefonu, poniewaz byla to najprostsza i najbardziej przewidywalna sciezka. Szybko okazalo sie jednak, ze dla lokalnego modelu multimodalnego klasy `4B` CPU bylby zbyt wolny do sensownej demonstracji. Dlatego przeszedlem na akceleracje przez GPU Adreno, uzywajac backendu Vulkan. Ten krok byl logiczny, bo pozwalal zachowac najwazniejsze zalozenie projektu, czyli inferencje lokalna na urzadzeniu, ale jednoczesnie probowal wykorzystac sprzetowa akceleracje telefonu zamiast liczyc tylko na procesor.
+Wniosek: problem byl zwiazany glownie ze sciezka backendu `Android + Vulkan/Adreno + llama.cpp mtmd`, a nie z brakiem samego interfejsu aplikacji. CPU bylo zbyt wolne jako docelowa demonstracja, a Adreno/Vulkan dawalo potrzebna akceleracje, ale w praktyce okazalo sie niestabilne dla tego konkretnego multimodalnego modelu i konfiguracji.
 
 ![Screenshot 2 - Android runner warning](Screenshots/km5/02_android_runner_warning.png)
 
